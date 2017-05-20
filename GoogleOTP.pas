@@ -3,7 +3,7 @@ unit GoogleOTP;
 interface
 
 uses
-  System.SysUtils, System.Math, Base32U, IdGlobal, IdHMACSHA1;
+  System.SysUtils, System.Math, Base32U, IdGlobal, IdHMACSHA1, System.DateUtils;
 
 (*
 
@@ -60,12 +60,13 @@ end;
 
 /// <summary>
 ///   Converts a TDateTime into the corresponding Unix Timestamp.
-///   From http://www.delphipraxis.net/4278-datetime-unixtimestamp-und-zurueck.html
 /// </summary>
 function CodeUnixDateTime(DatumZeit: TDateTime): Integer;
+var
+  wYear, wMonth, wDay, wHour, wMinute, wSecond, wMilliseconds: Word;
 begin
-  Result := ((Trunc(DatumZeit) - 25569) * 86400) +
-            Trunc(86400 * (DatumZeit - Trunc(DatumZeit))) - 7200;
+  DecodeDateTime(DatumZeit, wYear, wMonth, wDay, wHour, wMinute, wSecond, wMilliseconds);
+  Result := Round((EncodeDate(wYear, wMonth, wDay) - UnixDateDelta + EncodeTime(wHour, wMinute, wSecond, wMilliseconds)) * SecsPerDay);
 end;
 
 /// <summary>
@@ -99,7 +100,7 @@ begin
   if Counter <> -1 then
     Time = Counter
   else
-    Time := CodeUnixDateTime(now()) div keyRegeneration;
+    Time := CodeUnixDateTime(TTimeZone.Local.ToUniversalTime(Now)) div keyRegeneration;
 
   BinSecret := Base32.Decode(Secret);
   Hash := BytesToStringRaw(HMACSHA1(StrToIdBytes(BinSecret), ReverseIdBytes(ToBytes(Int64(Time)))));
