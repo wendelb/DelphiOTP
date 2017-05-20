@@ -5,13 +5,10 @@ Google Authenticator is based on [RFC 4226](http://www.ietf.org/rfc/rfc4226.txt)
 
 This Repository contains the working functions and all dependencies to either create a token generator or to validate tokens.
 
-Things that were in my way
---------------------------
+Base32-Unit
+-----------
 
-- Delphi XE2 doesn't come with Base32 functionality
-- DateTimeToUnix from DateUtils Unit performs a shitty conversion.
-- Indy 10's ToBytes on a Unicode String comes back with some surprises.
-- Indy 10's ToBytes on a Int64: The Result is the reverse of what I a) expected and b) wanted
+The code in previous versions of the `Base32U.pas` was not even close to being unicode ready. If you found this repository while looking for a working Base32 Implementation in Delphi, please have a look at [SZCodeBaseX](http://torry.net/authorsmore.php?id=5726). To have that one working in Delphi XE2 and higher, you will have to replace all `String`-Arguments with `AnsiString` ones.
 
 
 How to generate Time-based OTP using the code provided?
