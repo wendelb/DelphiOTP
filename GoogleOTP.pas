@@ -98,7 +98,7 @@ var
 begin
 
   if Counter <> -1 then
-    Time = Counter
+    Time := Counter
   else
     Time := CodeUnixDateTime(TTimeZone.Local.ToUniversalTime(Now)) div keyRegeneration;
 
