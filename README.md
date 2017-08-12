@@ -28,7 +28,7 @@ begin
 	Token := CalculateOTP('MYBASE32SECRET'); // Returns the Token as Integer;
 
 	// To display the token, use the Format-Function
-	ShowMessage(Format('%.6d', [Token]);
+	ShowMessage(Format('%.6d', [Token]));
 end;
 ```
 
@@ -50,7 +50,7 @@ begin
 	Token := CalculateOTP('MYBASE32SECRET', 4); // Returns the Token as Integer;
 
 	// To display the token, use the Format-Function
-	ShowMessage(Format('%.6d', [Token]);
+	ShowMessage(Format('%.6d', [Token]));
 end;
 ```
 
