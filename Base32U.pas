@@ -1,3 +1,6 @@
+{###############################################################################
+                      https://github.com/wendelb/DelphiOTP
+###############################################################################}
 unit Base32U;
 
 {
@@ -29,16 +32,16 @@ type
     class function Decode(const inString: String): String;
   end;
 
-implementation
-
-{$REGION 'Base32Functions'}
-
-
 // As the FromBase32String Function doesn't has the result I'm looking for, here
 // is my version of that function. This is converted from a PHP function, which
 // can be found here: https://www.idontplaydarts.com/2011/07/google-totp-two-factor-authentication-for-php/
 const
   ValidChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+
+implementation
+
+{$REGION 'Base32Functions'}
+
 
 function Base32Decode(const source: String): String;
 var
