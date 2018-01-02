@@ -1,3 +1,6 @@
+{###############################################################################
+                      https://github.com/wendelb/DelphiOTP
+###############################################################################}
 unit GoogleOTP;
 
 interface
@@ -26,12 +29,14 @@ Easy Display: Format('%.6d', [CalculateOTP(SECRET)]);
 
 function CalculateOTP(const Secret: String; const Counter: Integer = -1): Integer;
 function ValidateTOPT(const Secret: String; const Token: Integer; const WindowSize: Integer = 4): Boolean;
+function GenerateOTPSecret(len: Integer = -1): String;
 
 implementation
 
 const
   otpLength = 6;
   keyRegeneration = 30;
+  SecretLengthDef = 20;
 
 /// <summary>
 ///   Sign the Buffer with the given Key
@@ -122,7 +127,7 @@ var
 begin
   Result := false;
 
-  TimeStamp := CodeUnixDateTime(now()) div keyRegeneration;
+  TimeStamp := CodeUnixDateTime(TTimeZone.Local.ToUniversalTime(Now)) div keyRegeneration;
   for TestValue := Timestamp - WindowSize to TimeStamp + WindowSize do
   begin
     if (CalculateOTP(Secret, TestValue) = Token) then
@@ -130,5 +135,21 @@ begin
   end;
 end;
 
+function GenerateOTPSecret(len: Integer = -1): String;
+var
+  i : integer;
+  ValCharLen : integer;
+begin
+  Result := '';
+  ValCharLen := Length(Base32U.ValidChars);
+
+  if (len < 1) then
+    len := SecretLengthDef;
+
+  for i := 1 to len do
+  begin
+    Result := Result + copy(Base32U.ValidChars, Random(ValCharLen) + 1, 1);
+  end;
+end;
 
 end.
