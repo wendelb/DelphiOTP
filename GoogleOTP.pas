@@ -64,17 +64,6 @@ begin
 end;
 
 /// <summary>
-///   Converts a TDateTime into the corresponding Unix Timestamp.
-/// </summary>
-function CodeUnixDateTime(DatumZeit: TDateTime): Integer;
-var
-  wYear, wMonth, wDay, wHour, wMinute, wSecond, wMilliseconds: Word;
-begin
-  DecodeDateTime(DatumZeit, wYear, wMonth, wDay, wHour, wMinute, wSecond, wMilliseconds);
-  Result := Round((EncodeDate(wYear, wMonth, wDay) - UnixDateDelta + EncodeTime(wHour, wMinute, wSecond, wMilliseconds)) * SecsPerDay);
-end;
-
-/// <summary>
 ///   My own ToBytes function. Something in the original one isn't working as expected.
 /// </summary>
 function StrToIdBytes(const inString: String): TIdBytes;
@@ -105,7 +94,7 @@ begin
   if Counter <> -1 then
     Time := Counter
   else
-    Time := CodeUnixDateTime(TTimeZone.Local.ToUniversalTime(Now)) div keyRegeneration;
+    Time := DateTimeToUnix(Now, False) div keyRegeneration;
 
   BinSecret := Base32.Decode(Secret);
   Hash := BytesToStringRaw(HMACSHA1(StrToIdBytes(BinSecret), ReverseIdBytes(ToBytes(Int64(Time)))));
@@ -127,7 +116,7 @@ var
 begin
   Result := false;
 
-  TimeStamp := CodeUnixDateTime(TTimeZone.Local.ToUniversalTime(Now)) div keyRegeneration;
+  TimeStamp := DateTimeToUnix(Now, False) div keyRegeneration;
   for TestValue := Timestamp - WindowSize to TimeStamp + WindowSize do
   begin
     if (CalculateOTP(Secret, TestValue) = Token) then
