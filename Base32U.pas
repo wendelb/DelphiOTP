@@ -15,7 +15,7 @@ that is also unicode ready, please see the Readme!
 interface
 
 uses
-  System.SysUtils;  // For UpperCase (Base32Decode)
+  {$IFNDEF FPC}System.{$ENDIF}SysUtils;  // For UpperCase (Base32Decode)
 
 type
   Base32 = class
