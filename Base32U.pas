@@ -12,6 +12,10 @@ that is also unicode ready, please see the Readme!
 
 }
 
+{$IFDEF FPC}
+{$mode objfpc}{$H+}
+{$ENDIF}
+
 interface
 
 uses
