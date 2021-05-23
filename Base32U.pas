@@ -12,10 +12,14 @@ that is also unicode ready, please see the Readme!
 
 }
 
+{$IFDEF FPC}
+{$mode objfpc}{$H+}
+{$ENDIF}
+
 interface
 
 uses
-  System.SysUtils;  // For UpperCase (Base32Decode)
+  {$IFNDEF FPC}System.{$ENDIF}SysUtils;  // For UpperCase (Base32Decode)
 
 type
   Base32 = class
