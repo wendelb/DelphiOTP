@@ -76,3 +76,8 @@ begin
 		ShowMessage('Access denied');
 end;
 ```
+
+License
+-------
+
+This repository is licensed under the MIT license.
